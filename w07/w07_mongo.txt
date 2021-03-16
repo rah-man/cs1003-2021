@@ -1,0 +1,28 @@
+db.university.insertMany( [
+   	{ id: 01, name: "University of St Andrews", location: "St Andrews", council: "Fife" },
+	{ id: 02, name: "University of Dundee", location: "Dundee", council: "Dundee" }
+   ]
+)
+
+db.students.updateMany(
+   {},
+   { $set: { univ: 2 } } )
+
+db.students.updateMany(
+   { surname: "Clarke" },
+   { $set: { univ: 1 } } )
+   
+db.students.aggregate([
+	{ $lookup:
+        {
+           from: "university",
+           localField: "univ",
+           foreignField: "id",
+           as: "place_of_study"
+        }
+    }
+]).pretty();   
+
+select *
+from students s, university u
+where s.univ = u.id;

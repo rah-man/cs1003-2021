@@ -1,0 +1,25 @@
+Related Work (Oji)
+NLI data collection
+NLI dataset bhs lain
+NLI bhs Indo (IndoNLU)
+
+ENGLISH
+SNLI: https://www.aclweb.org/anthology/D15-1075.pdf
+MNLI: https://www.aclweb.org/anthology/N18-1101.pdf
+Adversarial NLI: https://www.aclweb.org/anthology/2020.acl-main.441.pdf
+
+NON-ENGLISH
+XNLI: https://www.aclweb.org/anthology/D18-1269.pdf
+TURKISH: https://www.aclweb.org/anthology/2020.emnlp-main.662.pdf
+CHINESE: https://www.aclweb.org/anthology/2020.findings-emnlp.314.pdf
+
+INDONESIAN: https://arxiv.org/pdf/2009.05387.pdf
+
+===============================================================
+
+- tulis ttg bert dan keluarganya
+- perbaiki kode bert:
+	- baca model yang udah disave
+	- proses kalimat tanpa harus simpan ke file
+
+

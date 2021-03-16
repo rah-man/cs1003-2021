@@ -1,0 +1,25 @@
+
+To compile & run the first example
+
+    javac Lambda.java && java Lambda
+
+To compile and run the second example
+
+    javac -cp json-20190722.jar: Composition.java && java -cp json-20190722.jar: Composition quotes.json
+
+To compile and run the third example
+
+    javac Parallel.java && time java Parallel 1000000000 sequential     This takes ~12 seconds on my laptop
+    javac Parallel.java && time java Parallel 1000000000 parallel       This takes 3 seconds!
+
+4th example
+
+    javac Interference.java && java Interference
+
+
+Read the code in the examples, don't just run them!
+
+Feel free to modify and play with them as well...
+
+Quotes takes from: https://github.com/dwyl/quotes/blob/master/quotes.json
+

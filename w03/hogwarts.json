@@ -1,0 +1,20 @@
+{
+  "students": [
+    {
+      "name": "Harry",
+      "house": "Gryffindor"
+    },
+    {
+      "name": "Draco",
+      "house": "Slytherin"
+    },
+    {
+      "name": "Luna",
+      "house": "Ravenclaw"
+    },
+    {
+      "name": "Cedric",
+      "house": "Hufflepuff"
+    }
+  ]
+}

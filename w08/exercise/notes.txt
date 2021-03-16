@@ -1,0 +1,19 @@
+Source: https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8243&type=Data%20catalogue
+
+Fields:
+0-ID
+1-Price
+2-Date
+3-Postcode
+4-Property type
+5-New build
+6-Estate type
+7-PAON Primary Addressable Object Name. Typically the house number or name.
+8-SAON Secondary Addressable Object Name. If there is a sub-building, for example, the building is divided into flats, there will be a SAON.
+9-Street
+10-Locality
+11-Town/City
+12-District
+13-County
+Ignore
+Ignore
