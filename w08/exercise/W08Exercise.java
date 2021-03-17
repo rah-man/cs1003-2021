@@ -28,10 +28,10 @@ public class W08Exercise {
 
         // A sample stream computation.
         // Takes less than 1 second for either input file since it doesn't have to parse the entire file...
-        // stream.limit(10).forEach(record -> System.out.println(record));
+        // stream.limit(10).forEach(r -> System.out.println(r));
 
-        findCheapestProperty(inputFile);
-        findAverageInTown(inputFile);
+        // findCheapestProperty(inputFile);
+        // findAverageInTown(inputFile);
         top10Max(inputFile);
     }
 
@@ -40,6 +40,7 @@ public class W08Exercise {
         System.out.println("\n===================\n");
         CSVParser parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
         Stream<CSVRecord> stream = StreamSupport.stream(parser.spliterator(), false);
+
         CSVRecord minProperty = stream
                                     .limit(1000)
                                     .min((prop1, prop2) -> Integer.parseInt(prop1.get(1)) - Integer.parseInt(prop2.get(1)))
@@ -75,11 +76,17 @@ public class W08Exercise {
 
         // get average for GLOUCESTER
         String townCity = "GLOUCESTER";
+        // double avgPrice = stream
+        //                     .filter(prop -> prop.get(11).equals(townCity))
+        //                     .mapToDouble(prop -> Double.parseDouble(prop.get(1)))
+        //                     .average()
+        //                     .orElse(Double.NaN);
+
         double avgPrice = stream
                             .filter(prop -> prop.get(11).equals(townCity))
-                            .mapToDouble(prop -> Double.parseDouble(prop.get(1)))
+                            .mapToInt(prop -> Integer.parseInt(prop.get(1)))
                             .average()
-                            .orElse(Double.NaN);
+                            .getAsDouble();
 
         System.out.println("Average in " + townCity + " is: " + avgPrice);
     }
@@ -89,14 +96,16 @@ public class W08Exercise {
         CSVParser parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
         Stream<CSVRecord> stream = StreamSupport.stream(parser.spliterator(), true);
 
+        // group by town/city
+        // map<groupname, groupvalue>
         Map<String, Double> result = stream
                                         .collect(Collectors.groupingBy(prop -> prop.get(11),
-                                                                       Collectors.averagingDouble(prop -> Double.parseDouble(prop.get(1)))));
+                                        Collectors.averagingDouble(prop -> Double.parseDouble(prop.get(1)))));
 
         result
             .entrySet()
-            .stream()
-            .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+            .stream() // k, v
+            .sorted(Map.Entry.<String, Double>comparingByValue())
             .limit(10)
             .forEachOrdered(c -> System.out.println(c.getKey() + ": " + c.getValue()));
 

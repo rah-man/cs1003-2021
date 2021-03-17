@@ -1,0 +1,4 @@
+https://www.techiedelight.com/find-maximum-minimum-custom-objects-java/
+https://mkyong.com/java8/java-8-collectors-groupingby-and-mapping-example/
+https://www.baeldung.com/java-array-sum-average
+https://www.baeldung.com/java-groupingby-collector
