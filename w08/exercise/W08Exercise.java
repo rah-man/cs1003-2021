@@ -30,9 +30,9 @@ public class W08Exercise {
         // Takes less than 1 second for either input file since it doesn't have to parse the entire file...
         // stream.limit(10).forEach(r -> System.out.println(r));
 
-        // findCheapestProperty(inputFile);
+        findCheapestProperty(inputFile);
         // findAverageInTown(inputFile);
-        top10Max(inputFile);
+        // top10Max(inputFile);
     }
 
     public static void findCheapestProperty(File inputFile) throws Exception{
@@ -42,31 +42,30 @@ public class W08Exercise {
         Stream<CSVRecord> stream = StreamSupport.stream(parser.spliterator(), false);
 
         CSVRecord minProperty = stream
-                                    .limit(1000)
-                                    .min((prop1, prop2) -> Integer.parseInt(prop1.get(1)) - Integer.parseInt(prop2.get(1)))
+                                    .max((prop1, prop2) -> Integer.parseInt(prop1.get(1)) - Integer.parseInt(prop2.get(1)))
                                     .get();
         System.out.println(minProperty);
 
 
         // using Collectors.minBy() with lambda, again because we don't have the class representation
-        System.out.println("\n===================\n");
-        parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
-        stream = StreamSupport.stream(parser.spliterator(), false);
-        minProperty = stream
-                        .limit(1000)
-                        .collect(Collectors.minBy((prop1, prop2) -> Integer.parseInt(prop1.get(1)) - Integer.parseInt(prop2.get(1))))
-                        .get();
-        System.out.println(minProperty);
+        // System.out.println("\n===================\n");
+        // parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
+        // stream = StreamSupport.stream(parser.spliterator(), false);
+        // minProperty = stream
+        //                 .limit(1000)
+        //                 .collect(Collectors.minBy((prop1, prop2) -> Integer.parseInt(prop1.get(1)) - Integer.parseInt(prop2.get(1))))
+        //                 .get();
+        // System.out.println(minProperty);
 
-        // using reduce() with lambda, for the same reason
-        System.out.println("\n===================\n");
-        parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
-        stream = StreamSupport.stream(parser.spliterator(), false);
-        minProperty = stream
-                        .limit(1000)
-                        .reduce((prop1, prop2) -> Integer.parseInt(prop1.get(1)) < Integer.parseInt(prop2.get(1)) ? prop1 : prop2)
-                        .get();
-        System.out.println(minProperty);
+        // // using reduce() with lambda, for the same reason
+        // System.out.println("\n===================\n");
+        // parser = CSVParser.parse(inputFile, Charset.forName("UTF-8"), CSVFormat.RFC4180);
+        // stream = StreamSupport.stream(parser.spliterator(), false);
+        // minProperty = stream
+        //                 .limit(1000)
+        //                 .reduce((prop1, prop2) -> Integer.parseInt(prop1.get(1)) < Integer.parseInt(prop2.get(1)) ? prop1 : prop2)
+        //                 .get();
+        // System.out.println(minProperty);
     }
 
     public static void findAverageInTown(File inputFile) throws Exception{

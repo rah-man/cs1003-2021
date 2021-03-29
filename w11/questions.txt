@@ -1,0 +1,193 @@
+which syntax is used for creating this table:
+	table name: cats
+	columns:	1) name, variable length string to store a cat's name, maximum 50 characters
+				2) age, an integer type to store a cat's age
+
+A.
+CREATE TABLE cats(
+	name VARCHAR(50),
+	age INT
+);
+
+B.
+CREATE TABLE cats(
+	name VARCHAR(50),
+	age INTEGER
+);
+
+C.
+A and B
+
+Note, however, that the one place the exact type name matters is in autoincrement columns: These must be INTEGER (and PRIMARY KEY), not just INT
+
+============================================================
+
+which syntax is used for creating this table:
+	table name: cats
+	columns:	1) name, variable length string to store a cat's name, maximum 50 characters
+				2) age, an integer type to store a cat's age
+				3) weight, a floating point for a cat's weight
+
+A.
+CREATE TABLE cats(
+	name VARCHAR(50),
+	age INT,
+	weight FLOAT
+);
+
+B.
+CREATE TABLE cats(
+	name VARCHAR(50),
+	age INT,
+	weight NUMERIC
+);
+
+C.
+CREATE TABLE cats(
+	name VARCHAR(50),
+	age INT,
+	weight REAL
+);
+
+D.
+A, B and C
+
+============================================================
+
+which syntax is used for getting cats' schema?
+p.s.: on sqlite command line this will be: .schema cats
+p.p.s: on other dbms, this will be: desc cats
+
+A.
+PRAGMA table_info('cats');
+
+B.
+SELECT sql 
+FROM sqlite_master 
+WHERE name = 'cats';
+
+C.
+A and B
+
+============================================================
+
+which syntax is used for deleting cats table?
+
+A.
+DELETE cats;
+
+B.
+DELETE table cats;
+
+C.
+DELETE table if exists cats;
+
+D. 
+DROP table cats;
+
+E.
+DROP table if exists cats;
+
+F.
+A, B and C
+
+G.
+D and E
+
+============================================================
+
+which syntax is used for adding a data to cats table
+name: Kitty
+age: 3
+weight: 3.6 kg
+
+A.
+INSERT INTO cats
+VALUES('Kitty', 3, 3.6);
+
+B.
+INSERT INTO cats(name, age, weight)
+VALUES('Kitty', 3, 3.6);
+
+C.
+INSERT INTO cats(age, weight, name)
+VALUES(3, 3.6, 'Kitty');
+
+D.
+A and B
+
+E.
+A, B and C
+
+============================================================
+
+not a question, but we can insert many rows using a single command
+
+INSERT INTO cats(name, age, weight)
+VALUES('Kitty', 3, 3.6),
+	('Lili', 1, 1.1),
+	('Max the Great', 4, 4.9);
+	
+============================================================
+
+what happens if we execute these commands?
+
+INSERT INTO cats(name, age)
+VALUES('The Boss', 3);
+
+INSERT INTO cats(name, weight)
+VALUES('The Boss', 3.7);
+
+INSERT INTO cats(age, weight)
+VALUES(3, 3.3);
+
+============================================================
+
+back to pragma and default value
+
+CREATE TABLE cats(
+	name VARCHAR(50) DEFAULT 'unnamed_cat',
+	age INT DEFAULT -1,
+	weight REAL DEFAULT -1.0
+);
+
+INSERT INTO cats(name, age)
+VALUES('The Boss', 3);
+
+INSERT INTO cats(name, weight)
+VALUES('The Boss', 3.7);
+
+INSERT INTO cats(age, weight)
+VALUES(3, 3.3);
+
+============================================================
+
+CREATE TABLE cats(
+	id INT PRIMARY KEY,
+	name VARCHAR(50) DEFAULT 'unnamed_cat',
+	age INT DEFAULT -1,
+	weight REAL DEFAULT -1.0
+);
+
+============================================================
+
+A or B?
+
+A.
+CREATE TABLE cats(
+	id INT PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(50) DEFAULT 'unnamed_cat',
+	age INT DEFAULT -1,
+	weight REAL DEFAULT -1.0
+);
+
+B.
+CREATE TABLE cats(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(50) DEFAULT 'unnamed_cat',
+	age INT DEFAULT -1,
+	weight REAL DEFAULT -1.0
+);
+
+============================================================
+
