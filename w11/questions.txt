@@ -191,3 +191,60 @@ CREATE TABLE cats(
 
 ============================================================
 
+new table:
+CREATE TABLE cats(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(50) DEFAULT 'unnamed_cat',
+	age INT DEFAULT -1,
+	weight REAL DEFAULT -1.0,
+	breed VARCHAR(25) DEFAULT 'unknown_breed'
+);
+
+INSERT INTO cats(name, age, weight, breed)
+VALUES('Kitty', 3, 3.6, 'tabby'),
+	('Lili', 1, 1.1, 'maine coon'),
+	('Max the Great', 4, 4.9, 'norwegian forest'),
+	('King Henry', 4, 5.7, 'shorthair'),
+	('Lucy', 6, 3.5, 'shorthair'),
+	('Ginny', 2, 2.1, 'ginger');
+
+SELECT * FROM cats;
+SELECT name FROM cats;
+SELECT name, age FROM cats;
+SELECT age, name FROM cats;
+
+p.s. order matters
+	
+============================================================
+
+adding conditions with WHERE clause (for selection, update, and deletion)
+
+SELECT * FROM cats WHERE age=4;
+
+============================================================
+
+which is the command to get the row(s) for cats whose name is 'King Henry'?
+
+A.
+SELECT * FROM cats WHERE name='King Henry';	
+
+B.
+SELECT * FROM cats WHERE name='king henry';	
+
+C.
+A and B
+
+============================================================
+
+alias
+
+SELECT name, weight AS 'chonky level' FROM cats;
+
+============================================================
+
+UPDATE cats SET breed='maine coon' WHERE breed='tabby';
+UPDATE cats SET breed='cute breed' WHERE true;
+UPDATE cats SET breed='cute breed';
+
+DELETE FROM cats WHERE name='King Henry';
+DELETE FROM cats; -- where true, will clean the table
