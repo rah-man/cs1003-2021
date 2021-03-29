@@ -243,7 +243,7 @@ SELECT name, weight AS 'chonky level' FROM cats;
 ============================================================
 
 UPDATE cats SET breed='maine coon' WHERE breed='tabby';
-UPDATE cats SET breed='cute breed' WHERE true;
+UPDATE cats SET breed='cute breed' WHERE TRUE;
 UPDATE cats SET breed='cute breed';
 
 p.s. it's possible to update several columns at the same time
@@ -270,10 +270,61 @@ VALUES ('Say Meow? How to be cute while maintaining authority.', 'John', 'Blue',
 		('Catmopolitan 2021. Full tricks to master your human. Right here, right meow.', 'Izzy', 'Lizzy', 2021, 345),
 		('Catnip Everdeen. After the hunger games.', 'Catnip', 'Everdeen', 2009, 999),
 		('I see you from the top of the cupboard.', 'Primrose', 'Everdeen', 2007, 75),
-		('Let me out. Now let me in.', 'Pawdy', 'Kruger', 1995, 29),
+		('Let me out. Now let me in.', 'Richard', 'Meowkins', 1995, 29),
 		('My life is pawtastic.', 'Meowlin', 'Monroe', 1968, 35),
 		('Terrible tree house, terrible treats: story of my life.', 'Catliam', 'Shakespeare', 1600, 5);
 		
 ============================================================
 
+which command is for selecting uniqe author_lname?
+
+A.
+SELECT UNIQUE author_lname FROM cat_books;
+
+B.
+SELECT DISTINCT author_lname FROM cat_books;
 		
+C.
+A and B
+		
+============================================================
+
+which command is for selecting unique author_fname and author_lname
+
+A.
+SELECT UNIQUE author_fname, UNIQUE author_lname FROM cat_books;
+
+B.
+SELECT DISTINCT author_fname, DISTINCT author_lname FROM cat_books;
+
+C.
+SELECT DISTINCT author_fname, author_lname FROM cat_books;
+		
+D.
+B and C
+
+============================================================
+
+SELECT author_fname || ' ' || author_lname AS 'full name'
+FROM cat_books;
+
+SELECT DISTINCT author_fname || ' ' || author_lname AS 'full name'
+FROM cat_books;
+
+============================================================
+
+SELECT author_lname FROM cat_books ORDER BY author_lname;
+SELECT author_fname, author_lname FROM cat_books ORDER BY author_lname DESC, author_fname;
+SELECT author_fname, author_lname FROM cat_books ORDER BY 1, 2 DESC;
+
+============================================================
+
+SELECT title, copy FROM cat_books ORDER BY 2;
+SELECT title, copy FROM cat_books ORDER BY 2 LIMIT 5;
+SELECT title, copy FROM cat_books ORDER BY 2 LIMIT 1, 5;
+
+============================================================
+
+SELECT author_lname FROM cat_books WHERE author_lname = 'Green';
+SELECT author_lname FROM cat_books WHERE author_lname LIKE '%een%';
+SELECT copy FROM cat_books WHERE copy LIKE '___';
