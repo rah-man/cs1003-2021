@@ -4,3 +4,5 @@ w06/mariadb/
 w06/sqlite-jdbc-3.34.0.jar
 w08/exercise/pp-2020.csv
 *.class
+
+w08/exercise/small.csv
