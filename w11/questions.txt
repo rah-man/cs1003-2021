@@ -305,11 +305,18 @@ B and C
 
 ============================================================
 
+Concatenate several strings/columns using the || operator.
+p.s. in other dbms it is CONCAT() etc.
+
+SELECT 'Hello' || ', ' || 'world!';
+
 SELECT author_fname || ' ' || author_lname AS 'full name'
 FROM cat_books;
 
 SELECT DISTINCT author_fname || ' ' || author_lname AS 'full name'
 FROM cat_books;
+
+SELECT author_fname AS first, author_lname AS last, author_fname || ' ' || author_lname AS full FROM cat_books;
 
 ============================================================
 
@@ -328,3 +335,20 @@ SELECT title, copy FROM cat_books ORDER BY 2 LIMIT 1, 5;
 SELECT author_lname FROM cat_books WHERE author_lname = 'Green';
 SELECT author_lname FROM cat_books WHERE author_lname LIKE '%een%';
 SELECT copy FROM cat_books WHERE copy LIKE '___';
+
+============================================================
+
+SELECT SUBSTRING('Hello, world!', 1, 6);
+SELECT SUBSTRING('Hello, world!', 8);
+
+SELECT SUBSTRING(title, 1, 15) || '...' as title
+FROM cat_books;
+
+SELECT SUBSTRING(UPPER(title), 1, 15) || '...' as title
+FROM cat_books;
+
+SELECT 'CATS BOOK OF THE MONTH: ' || LOWER(title) as title
+FROM cat_books;
+
+SELECT UPPER(author_fname) || ' ' || UPPER(author_lname) AS 'author full name'
+FROM cat_books;
