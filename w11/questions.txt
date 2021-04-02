@@ -460,3 +460,167 @@ SELECT *
 FROM cat_books
 WHERE release_year >= 2000 AND release_year % 2 != 0
 ORDER BY release_year;
+
+============================================================
+
+meow... real life multiple tables (sort of)
+
+DROP TABLE cat_books;
+
+CREATE TABLE customers(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(20) NOT NULL,
+	email VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE cat_books(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(200) NOT NULL,
+	release_year INT NOT NULL,
+	copy INT NOT NULL	
+);
+
+CREATE TABLE authors(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	fname VARCHAR(20) NOT NULL,
+	lname VARCHAR(20) NOT NULL,
+	email VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE author_books(
+	auth_id INTEGER,
+	book_id INTEGER,
+	version VARCHAR(30),
+	PRIMARY KEY(auth_id, book_id, version),
+	FOREIGN KEY(auth_id) REFERENCES author(id),
+	FOREIGN KEY(book_id) REFERENCES cat_books(id)
+);
+
+CREATE TABLE reviews(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	review VARCHAR(150) NOT NULL,
+	cust_id INTEGER,
+	book_id INTEGER,
+	FOREIGN KEY(cust_id) REFERENCES customers(id),
+	FOREIGN KEY(book_id) REFERENCES cat_books(id)
+);
+
+INSERT INTO authors(fname, lname, email)
+VALUES ('John', 'Blue', 'john.blue@catmail.com'),
+		('John', 'Green', 'john.green@catmail.com'),
+		('Richard', 'Meowkins', 'richard.meowkins@catmail.com'),
+		('Meowchel', 'Nostradame', 'meowchel.nostradame@catmail.com'),
+		('Izzy', 'Lizzy', 'izzy.lizzy@catmail.com'),
+		('Catnip', 'Everdeen', 'catnip.everdeen@catmail.com'),
+		('Primrose', 'Everdeen', 'primrose.everdeen@catmail.com'),
+		('Meowlin', 'Monroe', 'meowlin.monroe@catmail.com'),
+		('Catliam', 'Shakespeare', 'catliam.shakespeare@catmail.com')
+		
+INSERT INTO cat_books (title, release_year, copy)		
+VALUES ('Say Meow? How to be cute while maintaining authority.', 1999, 250),
+		('Cleo-cat-ra. An anthology of powerful cats throughout the ages.', 2010, 500),
+		('Half-empty food bowl. A tragic story of how a house kitten was neglected for 3 minutes. A NYT Bestseller.', 2000, 1000),
+		('Nostra-catmus. Cat domination has been prophesied.', 1549, 3),
+		('Catmopolitan 2021. Full tricks to master your human. Right here, right meow.', 2021, 345),
+		('Catnip Everdeen. After the hunger games.', 2009, 999),
+		('I see you from the top of the cupboard.', 2007, 75),
+		('Let me out. Now let me in.', 1995, 29),
+		('My life is pawtastic.', 1968, 35),
+		('Terrible tree house, terrible treats: story of my life.', 1600, 5);		
+
+INSERT INTO customers(fname, lname, email)
+VALUES('Jacques', 'Mistral', 'jm@gmail.com'),
+		('Thierry', 'Mistral', 'tm@gmail.com'),
+		('Sandra', 'Dupont', 'sd@gmail.com'),
+		('Martin', 'Dubois', 'md@gmail.com'),
+		('Adrien', 'Olivieri', 'ao@gmail.com');		
+		
+INSERT INTO author_books(auth_id, book_id, version)
+VALUES(1, 1, '1st edition paperback'),
+		(2, 2, '1st edition paperback'),
+		(2, 2, 'hardback illustrated'),
+		(3, 3, 'kindle ebook'),
+		(3, 8, 'paperback illustrated'),
+		(4, 4, '1st rare edition'),
+		(5, 5, 'yearly limited edition'),
+		(6, 6, 'hardback edition'),
+		(7, 7, 'paperback edition'),
+		(8, 9, 'rare collectible'),
+		(9, 10, 'rare discontinued');
+
+INSERT INTO reviews(review, cust_id, book_id)
+VALUES('What a good book to be read during spring break.', 1, 1),
+		('I learnt many historical cats from this book. Really recommended.', 1, 2),
+		('Sad, happy, and everything else. This book has made me emotional.' , 2, 3),
+		('I knew it that one day cats will rule the world.', 3, 4),
+		('My cats should not read this book. Otherwise, I am doomed.', 4, 5),
+		('Want to know the afterlife of Catnip after the hunger games? Read this book!', 5, 6),
+		('So refreshing and entertaining.', 5, 7),
+		('Now I know why my cats do their things.', 1, 8),
+		('An autobiography of a very famous cat. What moar can I say?', 2, 9),
+		('A glimpse into the life of the bard of catland. Very educating.', 3, 10)
+
+=================================================
+
+SELECT * FROM reviews
+WHERE cust_id = (
+	SELECT id FROM customers c
+	WHERE c.fname = 'Jacques' AND c.lname = 'Mistral'
+)
+
+p.s. see the similar output between implicit inner join and the explicit one
+
+SELECT c.fname, c.lname, r.review 
+FROM customers c, reviews r
+WHERE c.id = r.cust_id
+ORDER BY c.lname, c.fname;
+
+SELECT c.fname, c.lname, r.review 
+FROM customers c
+JOIN reviews r
+ON c.id = r.cust_id
+ORDER BY c.lname, c.fname;
+
+SELECT c.fname, c.lname, r.review 
+FROM customers c
+INNER JOIN reviews r
+ON c.id = r.cust_id
+ORDER BY c.lname, c.fname;
+		
+=================================================
+
+first remove the review from Dubois
+then we want to see the effect of left join
+
+DELETE FROM reviews WHERE cust_id = 4;		
+
+SELECT c.fname, c.lname, r.review 
+FROM customers c
+LEFT JOIN reviews r
+ON c.id = r.cust_id
+ORDER BY c.lname, c.fname;
+
+SELECT c.fname, c.lname, COUNT(r.review) AS '#reviews'
+FROM customers c
+LEFT JOIN reviews r
+ON c.id = r.cust_id
+GROUP BY c.fname, c.lname
+ORDER BY c.lname, c.fname;
+
+right join should work in a similar manner
+
+=================================================
+
+for many to many, using multiple implict and explicit inner join
+
+SELECT a.fname, a.lname, cb.title, cb.release_year, cb.release_year, ab.version 
+FROM authors a, author_books ab, cat_books cb 
+WHERE a.id = ab.auth_id AND cb.id = ab.book_id
+ORDER BY cb.release_year;
+
+SELECT a.fname, a.lname, cb.title, cb.release_year, cb.release_year, ab.version 
+FROM authors a
+JOIN author_books ab ON a.id = ab.auth_id 
+JOIN cat_books cb ON cb.id = ab.book_id 
+ORDER BY cb.release_year;
