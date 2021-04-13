@@ -1,0 +1,18 @@
+To compile:
+
+    javac -Xlint:unchecked -Xdiags:verbose -cp "/cs/studres/CS1003/0-General/spark/*":. *.java
+
+To run:
+
+    time java -cp "/cs/studres/CS1003/0-General/spark/*":. SparkText /cs/studres/CS1003/Exercises/W08-Streams/data/pp-2020.csv
+
+    time java -cp "/cs/studres/CS1003/0-General/spark/*":. SparkCSV /cs/studres/CS1003/Exercises/W08-Streams/data/pp-2020.csv
+
+
+Add "2> /dev/null" to the end to ignore the log messages.
+
+MY NOTES:
+
+export CLASSPATH=${CLASSPATH}:"/cs/studres/CS1003/0-General/spark/*":.
+javac *.java
+java CLASS 2> /dev/null
