@@ -4,6 +4,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Second{
   public static void main(String[] args){
     // List<String> harryPotter = new ArrayList<String>(Arrays.asList("Mr and Mrs Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much. They were the last people you'd expect to be involved in anything strange or mysterious, because they just didn't hold with such nonsense."));
     List<String> harryPotter = new ArrayList<String>(Arrays.asList("Mr and Mrs Dursley, of number four, Privet Drive,"));
+    double threshold = 0.75;
 
     SparkConf sparkConf = new SparkConf().setAppName("spark_second").setMaster("local[*]");
     JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
@@ -40,11 +42,19 @@ public class Second{
     wordJaccard.collect().forEach(System.out::println);
 
     System.out.println("\nFILTERED RESULT AND VALUE");
-    JavaPairRDD<String, Double> jaccardFiltered = wordJaccard.filter(wj -> wj._2() >= 0.75);
-    jaccardFiltered.foreach(jf -> System.out.println(jf));
+    JavaPairRDD<String, Double> jaccardFiltered = wordJaccard.filter(new Function<Tuple2<String, Double>, Boolean>(){
+      @Override
+      public Boolean call(Tuple2<String, Double> input){
+        return input._2() >= threshold;
+      }
+    });
+    // JavaPairRDD<String, Double> jaccardFiltered = wordJaccard.filter(wj -> wj._2() >= 0.75);
+    // jaccardFiltered.foreach(jf -> System.out.println(jf));
+    jaccardFiltered.collect().forEach(jf -> System.out.println(jf));
 
     System.out.println("\nFILTERED RESULT");
-    jaccardFiltered.foreach(jf -> System.out.println(jf._1()));
+    // jaccardFiltered.foreach(jf -> System.out.println(jf._1()));
+    jaccardFiltered.collect().forEach(jf -> System.out.println(jf._1()));
   }
 
   public static String cleanString(String s){
